@@ -11,7 +11,7 @@ To use HackScripts, you can clone the repository and run the scripts that you ne
 
 ## Scripts List
 
-| | Script | Description | Status |
+|  Script | Description | Status |
 | --- | --- | --- |
 | [setup_time_sync.sh](server/setup_time_sync.sh) | Description not set | Tested |
 | [notification.sh](other/notification.sh) | Description not set | Tested |
