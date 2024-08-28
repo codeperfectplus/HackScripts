@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # This script sets up NTP or systemd-timesyncd on Ubuntu
+# status: tested
+# published by: Deepak Raj
+# published on: 2024-08-28
 
 # Function to install and configure NTP
 install_ntp() {

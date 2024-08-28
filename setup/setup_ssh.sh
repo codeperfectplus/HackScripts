@@ -1,51 +1,56 @@
-  #!/bin/bash
+#!/bin/bash
 
-  # Check if the script is run as root
-  if [ "$EUID" -ne 0 ]; then
-    echo "Please run as root"
-    exit 1
-  fi
+# setup open ssh server on ubuntu
+# status: tested
+# published by: Deepak Raj
+# published on: 2024-08-28
 
-  # Install OpenSSH Server
-  echo "Installing OpenSSH Server..."
-  apt-get update
-  apt-get install -y openssh-server
+# Check if the script is run as root
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run as root"
+  exit 1
+fi
 
-  # Enable and start the SSH service
-  echo "Enabling and starting the SSH service..."
-  systemctl enable ssh
-  systemctl start ssh
+# Install OpenSSH Server
+echo "Installing OpenSSH Server..."
+apt-get update
+apt-get install -y openssh-server
 
-  # Install UFW (Uncomplicated Firewall)
-  echo "Installing UFW (Uncomplicated Firewall)..."
-  apt-get install -y ufw
+# Enable and start the SSH service
+echo "Enabling and starting the SSH service..."
+systemctl enable ssh
+systemctl start ssh
 
-  # Allow SSH through the firewall
-  echo "Allowing SSH traffic on port 22..."
-  ufw allow 22/tcp
+# Install UFW (Uncomplicated Firewall)
+echo "Installing UFW (Uncomplicated Firewall)..."
+apt-get install -y ufw
 
-  # Enable the firewall
-  echo "Enabling the firewall..."
-  ufw enable
+# Allow SSH through the firewall
+echo "Allowing SSH traffic on port 22..."
+ufw allow 22/tcp
 
-  # Get the server's IP address
-  IP_ADDRESS=$(hostname -I | awk '{print $1}')
-  if [ -z "$IP_ADDRESS" ]; then
-    echo "Could not retrieve IP address. Please check your network settings."
-    exit 1
-  fi
+# Enable the firewall
+echo "Enabling the firewall..."
+ufw enable
 
-  # Get the current username
-  USERNAME=$(whoami)
+# Get the server's IP address
+IP_ADDRESS=$(hostname -I | awk '{print $1}')
+if [ -z "$IP_ADDRESS" ]; then
+  echo "Could not retrieve IP address. Please check your network settings."
+  exit 1
+fi
 
-  # Display the login information
-  echo "====================================="
-  echo "OpenSSH Server has been installed and configured."
-  echo "You can access this server using the following information:"
-  echo ""
-  echo "IP Address: $IP_ADDRESS"
-  echo "Username:   $USERNAME"
-  echo ""
-  echo "To log in from another machine, use the following command:"
-  echo "ssh $USERNAME@$IP_ADDRESS"
-  echo "====================================="
+# Get the current username
+USERNAME=$(whoami)
+
+# Display the login information
+echo "====================================="
+echo "OpenSSH Server has been installed and configured."
+echo "You can access this server using the following information:"
+echo ""
+echo "IP Address: $IP_ADDRESS"
+echo "Username:   $USERNAME"
+echo ""
+echo "To log in from another machine, use the following command:"
+echo "ssh $USERNAME@$IP_ADDRESS"
+echo "====================================="

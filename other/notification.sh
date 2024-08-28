@@ -1,6 +1,10 @@
 #!/bin/bash
 
 # Function to send notifications
+# status: tested
+# published by: Deepak Raj
+# published on: 2024-08-30
+
 send_notification() {
     notify-send "Notification" "You Have been hacked"
 }

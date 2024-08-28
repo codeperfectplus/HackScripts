@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Script to install Visual Studio Code on a Linux system
+# status: tested
+# published by: Deepak Raj
+# published on: 2024-08-28
+
 # Exit immediately if a command exits with a non-zero status
 set -e
 

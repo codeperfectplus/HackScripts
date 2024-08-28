@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # Script to install and configure fail2ban on Ubuntu
+# status: tested
+# published by: Deepak Raj
+# published on: 2024-08-28
 
 # Check if the script is run as root
 if [ "$EUID" -ne 0 ]; then

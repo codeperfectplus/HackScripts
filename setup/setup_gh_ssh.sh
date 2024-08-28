@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Script to setup SSH keys for multiple GitHub accounts
+# status: tested
+# published by: Deepak Raj
+# published on: 2024-08-29
+
 # Exit immediately if a command exits with a non-zero status
 set -e
 

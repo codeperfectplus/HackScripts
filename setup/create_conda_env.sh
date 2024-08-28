@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # Script to create a new Conda environment with the latest Python version
+# status: tested
+# published by: Deepak Raj
+# published on: 2024-08-28
 
 # Check if the script is run with an argument for the environment name
 if [ "$#" -ne 1 ]; then

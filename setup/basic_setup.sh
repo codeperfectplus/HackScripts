@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Script for basic server setup on a Linux system
+# status: tested
+# published by: Deepak Raj
+# published on: 2024-08-28
+
 # indian timezone
 NEW_USER="admin"
 TIMEZONE="Asia/Kolkata"

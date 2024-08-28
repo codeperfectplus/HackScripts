@@ -1,16 +1,3 @@
-# HackScripts?
-
-## What is HackScripts?
-
-HackScripts is a collection of scripts that I use to automate the setup of my servers and development environments. The scripts are written in bash and are tested on Ubuntu 22.04 LTS.
-
-## How to use HackScripts?
-
-To use HackScripts, you can clone the repository and run the scripts that you need. The scripts are organized into folders based on their purpose. The `setup` folder contains scripts that set up the development environment, the `server` folder contains scripts that set up the server environment, and the `security` folder contains scripts that set up security features.
-
-
-## Scripts List
-
 | Script | Description | Status | Published By | Published On |
 | --- | --- | --- | --- | --- |
  [notification.sh](other/notification.sh) | Function to send notifications | tested | Deepak Raj | 2024-08-30 |
@@ -25,9 +12,3 @@ To use HackScripts, you can clone the repository and run the scripts that you ne
  [install_fail2ban.sh](security/install_fail2ban.sh) | Script to install and configure fail2ban on Ubuntu | tested | Deepak Raj | 2024-08-28 |
  [create_conda_env.sh](setup/create_conda_env.sh) | Script to create a new Conda environment with the latest Python version | tested | Deepak Raj | 2024-08-28 |
  [basic_setup.sh](setup/basic_setup.sh) | Script for basic server setup on a Linux system | tested | Deepak Raj | 2024-08-28 |
-
-
-
-## Contributing
-
-If you have a script that you would like to add to HackScripts, feel free to open a pull request. Please make sure that the script is well-documented and tested before submitting it.

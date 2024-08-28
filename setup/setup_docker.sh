@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Script to install Docker and Docker Compose on a Linux system
+# status: tested
+# published by: Deepak Raj
+# published on: 2024-08-28
+
 # Check if the script is run as root
 if [ "$EUID" -ne 0 ]; then
   echo "Please run as root or use sudo."

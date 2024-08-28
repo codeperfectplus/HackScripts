@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Script to setup PostgreSQL and pgAdmin on a Linux system
+# status: not tested
+# published by: Deepak Raj
+# published on: 2024-08-28
+
+
 # Exit immediately if a command exits with a non-zero status
 set -e
 
