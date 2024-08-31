@@ -5,15 +5,24 @@
 # published by: Deepak Raj
 # published on: 2024-08-28
 
-# Check if the script is run as root
-if [ "$EUID" -ne 0 ]; then
-  echo "Please run as root or use sudo."
-  exit 1
-fi
+get_user_home() {
+    if [ -n "$SUDO_USER" ]; then
+        # When using sudo, SUDO_USER gives the original user who invoked sudo
+        TARGET_USER="$SUDO_USER"
+    else
+        # If not using sudo, use LOGNAME to find the current user
+        TARGET_USER="$LOGNAME"
+    fi
+    
+    # Get the home directory of the target user
+    USER_HOME=$(eval echo ~$TARGET_USER)
+    echo "$USER_HOME"
+}
 
 # Define Miniconda version and installation path
+USER_HOME=$(get_user_home)
 MINICONDA_VERSION="latest"
-INSTALL_PATH="$HOME/miniconda3"
+INSTALL_PATH="$USER_HOME/miniconda3"
 MINICONDA_INSTALLER="Miniconda3-latest-Linux-x86_64.sh"
 
 # Download Miniconda installer
