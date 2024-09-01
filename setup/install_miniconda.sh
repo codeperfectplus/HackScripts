@@ -5,6 +5,12 @@
 # published by: Deepak Raj
 # published on: 2024-08-28
 
+# run script as root use
+if [ "$EUID" -ne 0 ]; then
+    echo "Please run as root"
+    exit
+fi
+
 get_user_home() {
     if [ -n "$SUDO_USER" ]; then
         # When using sudo, SUDO_USER gives the original user who invoked sudo
@@ -25,20 +31,10 @@ INSTALL_PATH="$USER_HOME/miniconda3"
 MINICONDA_INSTALLER="Miniconda3-latest-Linux-x86_64.sh"
 TMP_INSTALLER="/tmp/$MINICONDA_INSTALLER"
 MINICONDA_PAGE_URL="https://docs.anaconda.com/miniconda/"
-CHECKSUM_FILE=$MINICONDA_INSTALLER.sha256
-
 
 # Function to extract the checksum from the documentation page
 extract_checksum() {
     echo "Downloading Miniconda documentation page..."
-
-    # if checksum file exists and is not older than 1 day, read the checksum from the file
-    if [ -f "$CHECKSUM_FILE" ] && [ $(find "$CHECKSUM_FILE" -mtime -1) ]; then
-        echo "Checksum file already exists and is not older than 1 day. Reading checksum from file..."
-        CHECKSUM=$(cat "$CHECKSUM_FILE")
-        echo "$CHECKSUM"
-        return 0
-    fi
 
     wget -q "$MINICONDA_PAGE_URL" -O miniconda_page.html
 
@@ -51,7 +47,6 @@ extract_checksum() {
     # Look for the specific section where the installer and checksum are mentioned
     CHECKSUM=$(grep -A 1 "$MINICONDA_INSTALLER" miniconda_page.html | grep -oP '(?<=<span class="pre">)[a-f0-9]{64}(?=</span>)')
     # save the checksum to a file
-    echo "$CHECKSUM" > "$CHECKSUM_FILE"
 
     rm miniconda_page.html
 
@@ -59,8 +54,6 @@ extract_checksum() {
         echo "Checksum for $MINICONDA_INSTALLER not found on the page."
         return 1
     fi
-
-    echo "$CHECKSUM"
 }
 
 # check if tmp_installers file exists
@@ -75,9 +68,10 @@ echo "Verifying Miniconda installer..."
 
 # sumcheck of $TMP_INSTALLER
 sumcheck=$(sha256sum $TMP_INSTALLER | awk '{print $1}')
-
 # compare $sumcheck with the checksum from the documentation page
 extract_checksum
+echo "checksum of downloaded file: $sumcheck"
+echo "checksum from documentation page: $CHECKSUM"
 if [ "$sumcheck" != "$CHECKSUM" ]; then
     echo "Checksum verification failed. Exiting..."
     exit 1
@@ -86,7 +80,16 @@ fi
 echo "Checksum verification successful."
 echo "Running Miniconda installer..."
 
-
+# check if install path exists
+if [ -d "$INSTALL_PATH" ]; then
+    echo "Miniconda is already installed in $INSTALL_PATH. Exiting..."
+    echo "Do you want to update Miniconda? (y/n)"
+    read update
+    if [ "$update" == "n" ]; then
+        exit 0
+    fi
+    bash /tmp/$MINICONDA_INSTALLER -b -p $INSTALL_PATH -u
+fi
 # Run the Miniconda installer
 echo "Running Miniconda installer..."
 bash /tmp/$MINICONDA_INSTALLER -b -p $INSTALL_PATH
