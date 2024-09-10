@@ -5,12 +5,6 @@
 # Published by: Deepak Raj
 # Published on: 2024-08-28
 
-# Ensure the script is run as root
-if [ "$EUID" -ne 0 ]; then
-    echo "Please run as root."
-    exit 1
-fi
-
 # Function to determine the home directory of the target user
 get_user_home() {
     if [ -n "$SUDO_USER" ]; then
