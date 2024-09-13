@@ -5,24 +5,25 @@
 # Published by: Deepak Raj
 # Published on: 2024-08-28
 
-# Ensure the script is run as root
-if [ "$EUID" -ne 0 ]; then
-    echo "Please run as root."
-    exit 1
-fi
-
 # Function to determine the home directory of the target user
-get_user_home() {
-    if [ -n "$SUDO_USER" ]; then
-        TARGET_USER="$SUDO_USER"
+get_user_name() {
+    if [ "$(whoami)" = "root" ]; then
+        LOGNAME_USER=$(logname 2>/dev/null) # Redirect any error output to /dev/null
+        if [ $? -ne 0 ]; then               # Check if the exit status of the last command is not 0
+            echo "No login name found. Using fallback method."
+            # use head -n 1 for native linux. tail -n 1 works with wsl.
+            USER_NAME=$(cat /etc/passwd | grep '/home' | cut -d: -f1 | tail -n 1)
+        else
+            USER_NAME=$LOGNAME_USER
+        fi
     else
-        TARGET_USER="$LOGNAME"
+        USER_NAME=$(whoami)
     fi
-    echo "$(eval echo ~$TARGET_USER)"
+    echo "$USER_NAME"
 }
 
-# Define Miniconda version, installer, and installation path
-USER_HOME=$(get_user_home)
+USER_NAME=$(get_user_name)
+USER_HOME="/home/$USER_NAME"
 echo "User home directory: $USER_HOME"
 INSTALL_PATH="$USER_HOME/miniconda3"
 MINICONDA_INSTALLER="Miniconda3-latest-Linux-x86_64.sh"
@@ -113,7 +114,8 @@ rm $TMP_INSTALLER
 echo "Updating Conda..."
 $INSTALL_PATH/bin/conda update -n base -c defaults conda -y
 
+source ~/.bashrc
+
 # Display final message
 echo "Miniconda installation completed!"
 echo "Miniconda is installed at $INSTALL_PATH"
-echo "Restart your terminal or run 'source ~/.bashrc' to activate Miniconda."
