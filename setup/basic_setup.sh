@@ -18,7 +18,7 @@ update_system() {
 # Function to install basic packages
 install_basic_packages() {
     echo "Installing basic packages..."
-    sudo apt-get install -y curl wget git vim ufw htop unzip nano
+    sudo apt-get install -y curl wget git vim ufw htop unzip nano nmap
 }
 
 # Function to set the timezone

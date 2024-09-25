@@ -6,7 +6,7 @@
 # published on: 2024-08-30
 
 send_notification() {
-    notify-send "Notification" "You Have been hacked"
+    notify-send "Notification" "This is a sample notification."
 }
 
 # Function to handle termination
@@ -23,5 +23,5 @@ echo "Press Ctrl + Q to stop notifications."
 # Loop to send notifications continuously
 while true; do  
     send_notification
-    sleep 10  # Adjust the interval as needed
+    sleep 1  # Adjust the interval as needed
 done

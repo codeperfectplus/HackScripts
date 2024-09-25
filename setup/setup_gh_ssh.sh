@@ -57,12 +57,9 @@ while true; do
     echo "Your SSH public key for $email is:"
     cat "$HOME/.ssh/id_rsa_$key_name.pub"
 
-    read -p "Open GitHub SSH keys settings page in your default browser? (y/n): " open_browser
-    if [[ $open_browser == "y" || $open_browser == "Y" ]]; then
-        xdg-open "https://github.com/settings/keys"
-    fi
-
     echo "Please add the above SSH public key to your GitHub account."
+    echo "You can add the key by visiting the following link:"
+    echo "https://github.com/settings/keys"
 done
 
 # Create or update SSH config file for multiple accounts
