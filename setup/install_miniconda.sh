@@ -30,27 +30,6 @@ MINICONDA_INSTALLER="Miniconda3-latest-Linux-x86_64.sh"
 TMP_INSTALLER="/tmp/$MINICONDA_INSTALLER"
 MINICONDA_PAGE_URL="https://docs.anaconda.com/miniconda/"
 
-# Function to extract the checksum from the Miniconda documentation page
-extract_checksum() {
-    echo "Downloading Miniconda documentation page..."
-    wget -q "$MINICONDA_PAGE_URL" -O /tmp/miniconda_page.html
-
-    if [ ! -f "/tmp/miniconda_page.html" ]; then
-        echo "Failed to download Miniconda documentation page."
-        return 1
-    fi
-
-    echo "Extracting checksum for $MINICONDA_INSTALLER..."
-    CHECKSUM=$(grep -A 1 "$MINICONDA_INSTALLER" /tmp/miniconda_page.html | grep -oP '(?<=<span class="pre">)[a-f0-9]{64}(?=</span>)')
-
-    rm /tmp/miniconda_page.html
-
-    if [ -z "$CHECKSUM" ]; then
-        echo "Checksum for $MINICONDA_INSTALLER not found."
-        return 1
-    fi
-}
-
 # Download Miniconda installer if it doesn't already exist
 if [ -f "$TMP_INSTALLER" ]; then
     echo "Miniconda installer already exists in /tmp. Skipping download."
@@ -58,32 +37,6 @@ else
     echo "Downloading Miniconda installer..."
     wget https://repo.anaconda.com/miniconda/$MINICONDA_INSTALLER -O $TMP_INSTALLER
 fi
-
-# Verify the Miniconda installer checksum
-echo "Verifying Miniconda installer..."
-extract_checksum
-
-if [ $? -ne 0 ]; then
-    echo "Failed to extract checksum. Exiting..."
-    exit 1
-fi
-
-DOWNLOAD_CHECKSUM=$(sha256sum $TMP_INSTALLER | awk '{print $1}')
-
-echo "Checksum of downloaded file: $DOWNLOAD_CHECKSUM"
-echo "Checksum from documentation: $CHECKSUM"
-
-if [ "$DOWNLOAD_CHECKSUM" != "$CHECKSUM" ]; then
-    echo "Checksum verification failed. Exiting..."
-    echo "Do you want to proceed with the installation anyway? (y/n): "
-    read proceed
-    if [ "$proceed" != "y" ]; then
-        echo "Exiting..."
-        exit 1
-    fi
-fi
-
-echo "Checksum verification successful."
 
 # Check if Miniconda is already installed
 echo $INSTALL_PATH
