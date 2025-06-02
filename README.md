@@ -26,6 +26,7 @@ To use HackScripts, you can clone the repository and run the scripts that you ne
 | [create_conda_env.sh](setup/create_conda_env.sh)        | Script to create a new Conda environment with the latest Python version | tested     | Deepak Raj   | 2024-08-28   |
 | [basic_setup.sh](setup/basic_setup.sh)                  | Script for basic server setup on a Linux system                         | tested     | Deepak Raj   | 2024-08-28   |
 | [pypi_package_info.py](other/pypi_package_info.py)      | Python script to fetch package information from PyPI                    | tested     | Deepak Raj   | 2024-08-28   |
+| [cythonize_project.sh](other/cythonize_project.sh) | Script to cythonize a Python project (convert into so files)                                  | tested     | Deepak Raj   | 2024-08-28   |
 
 
 
