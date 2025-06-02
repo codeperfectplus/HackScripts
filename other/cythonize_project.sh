@@ -1,8 +1,11 @@
 #!/bin/bash
 
-# ----------------------------------------
+#!/bin/bash
+
 # 🚀 Python Build System with Cython
-# ----------------------------------------
+# status: tested
+# published by: Deepak Raj
+# published on: 2025-06-02
 
 set -euo pipefail
 trap 'error "❌ Error occurred. Exiting..."; exit 1' ERR
