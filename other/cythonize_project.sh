@@ -1,12 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
-
-# 🚀 Python Build System with Cython
-# status: tested
-# published by: Deepak Raj
-# published on: 2025-06-02
-
 set -euo pipefail
 trap 'error "❌ Error occurred. Exiting..."; exit 1' ERR
 
@@ -19,8 +12,9 @@ readonly EXCLUDED_PATTERNS=(*/.git* */__pycache__* */venv* ./build*)
 
 # Optional: Read excluded files from .exclude_files if it exists
 EXCLUDE_FILES=()
-if [[ -f .exclude_files ]]; then
-    IFS=$'\n' read -d '' -r -a EXCLUDE_FILES < .exclude_files || true
+if [[ -f .exclude_files && -s .exclude_files ]]; then
+    # Only read if file exists and is not empty
+    mapfile -t EXCLUDE_FILES < .exclude_files
 fi
 
 # ---------- Logging Utilities ----------
@@ -39,6 +33,10 @@ error() {
 # ---------- Helpers ----------
 is_excluded() {
     local rel_path="$1"
+    # Handle empty array case safely
+    if [[ ${#EXCLUDE_FILES[@]} -eq 0 ]]; then
+        return 1
+    fi
     for excluded in "${EXCLUDE_FILES[@]}"; do
         [[ "$rel_path" == "$excluded" ]] && return 0
     done
@@ -72,11 +70,30 @@ compile_python_files() {
 
         c_file="${py_file%.py}.c"
         log "Compiling: $rel_path"
-        cython "$py_file" -3 -o "$c_file"
+        
+        # Generate C code with Cython
+        if ! cython "$py_file" -3 -o "$c_file"; then
+            error "Failed to cythonize $rel_path"
+            continue
+        fi
 
         output_dir="$(dirname "$COMPILED_CODE_SOURCE_DIRECTORY/$rel_path")"
         base_name="$(basename "$py_file" .py)"
-        gcc -shared -o "$output_dir/$base_name.so" -fPIC $(python3 -m pybind11 --includes) "$c_file"
+        
+        # Get Python includes and library paths
+        PYTHON_INCLUDES=$(python3-config --includes)
+        PYTHON_LIBS=$(python3-config --ldflags)
+        
+        # Compile with C99 standard and proper flags
+        if ! gcc -shared -fPIC -std=c99 \
+            $PYTHON_INCLUDES \
+            $PYTHON_LIBS \
+            -o "$output_dir/$base_name.so" \
+            "$c_file"; then
+            error "Failed to compile $rel_path to shared object"
+            rm -f "$c_file"
+            continue
+        fi
 
         rm "$c_file"
     done
