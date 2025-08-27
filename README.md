@@ -27,6 +27,7 @@ To use HackScripts, you can clone the repository and run the scripts that you ne
  [install_fail2ban.sh](security/install_fail2ban.sh) | Script to install and configure fail2ban on Ubuntu | tested | Deepak Raj | 2024-08-28 |
  [create_conda_env.sh](setup/create_conda_env.sh) | Script to create a new Conda environment with the latest Python version | tested | Deepak Raj | 2024-08-28 |
  [basic_setup.sh](setup/basic_setup.sh) | Script for basic server setup on a Linux system | tested | Deepak Raj | 2024-08-28 |
+ [generate_pem.sh](other/generate_pem.sh) | Script to generate PEM files for OpenSSH server | tested | Deepak Raj | 2025-08-27 |
 
 
 
