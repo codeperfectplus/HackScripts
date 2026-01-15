@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Script for cythonizing a project 
+# status: tested
+# published by: Deepak Raj
+# published on: 2026-01-16
+
 set -euo pipefail
 trap 'error "❌ Error occurred. Exiting..."; exit 1' ERR
 

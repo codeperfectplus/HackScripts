@@ -1,7 +1,8 @@
 | Script | Description | Status | Published By | Published On |
 | --- | --- | --- | --- | --- |
  [install_miniconda.sh](setup/install_miniconda.sh) | Script to set up Miniconda on a Linux system | Not tested | Unknown | Unknown |
- [cythonize_project.sh](other/cythonize_project.sh) | 🚀 Python Build System with Cython | tested | Deepak Raj | 2025-06-02 |
+ [generate_pem.sh](setup/generate_pem.sh) | this script will generate pem files for the openssh-server | Not tested | Unknown | Unknown |
+ [cythonize_project.sh](other/cythonize_project.sh) | Script for cythonizing a project  | tested | Deepak Raj | 2026-01-16 |
  [setup_docker_centos.sh](setup/setup_docker_centos.sh) | Script to install Docker and Docker Compose on centos system | tested | Deepak Raj | 2024-09-25 |
  [notification.sh](other/notification.sh) | Function to send notifications | tested | Deepak Raj | 2024-08-30 |
  [setup_gh_ssh.sh](setup/setup_gh_ssh.sh) | Script to setup SSH keys for multiple GitHub accounts | tested | Deepak Raj | 2024-08-29 |
